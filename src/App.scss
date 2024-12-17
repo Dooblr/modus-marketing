@@ -2,6 +2,20 @@
 $gunmetal: #2C3539;
 $white: #FFFFFF;
 $black: #000000;
+$accent: #64FFDA; // Modern accent color
+$gradient-start: rgba($gunmetal, 0.97);
+$gradient-end: rgba($black, 0.98);
+$card-bg: rgba($white, 0.05);
+$hover-bg: rgba($white, 0.08);
+
+// Add these styles at the beginning of the file, after variables
+html, 
+body, 
+#root {
+  background-color: $black;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
 // Keyframes for background animation
 @keyframes gradient {
@@ -13,6 +27,28 @@ $black: #000000;
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeToBlack {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+// Add this class for the overlay
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $black;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+
+  &.active {
+    animation: fadeToBlack 0.3s ease-in-out forwards;
   }
 }
 
@@ -104,7 +140,7 @@ body {
 // Add new styles for page transitions
 .page-container {
   min-height: 100vh;
-  padding: 2rem;
+  padding: 5rem 2rem 2rem;
   background: linear-gradient(
     -45deg,
     rgba($gunmetal, 0.97),
@@ -122,7 +158,7 @@ body {
   h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 3rem;
-    margin: 2rem 0;
+    margin: 1rem 0 2rem;
     text-transform: uppercase;
     letter-spacing: 2px;
   }
@@ -277,50 +313,72 @@ body {
   .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 2.5rem;
     padding: 2rem;
-    max-width: 1200px;
+    max-width: 1400px; // Slightly wider
     width: 100%;
     margin: 0 auto;
 
     .service-card {
-      background: rgba($white, 0.05);
-      border-radius: 8px;
-      padding: 2rem;
+      background: $card-bg;
+      border-radius: 12px; // Larger radius
+      padding: 2.5rem;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       backdrop-filter: blur(10px);
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      border: 1px solid rgba($white, 0.05);
+      box-shadow: 0 4px 20px rgba($black, 0.1);
 
       &:hover {
-        transform: translateY(-5px);
-        background: rgba($white, 0.08);
+        transform: translateY(-8px);
+        background: $hover-bg;
+        border-color: rgba($accent, 0.2);
       }
 
       &.expanded {
         background: rgba($white, 0.1);
+        transform: scale(1.02);
       }
 
       h3 {
         font-family: 'Montserrat', sans-serif;
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
+        font-size: 1.8rem;
+        margin-bottom: 1.2rem;
         color: $white;
+        position: relative;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 40px;
+          height: 2px;
+          background: $accent;
+          transition: width 0.3s ease;
+        }
+      }
+
+      &:hover h3::after {
+        width: 60px;
       }
 
       p {
         font-family: 'Open Sans', sans-serif;
-        color: rgba($white, 0.8);
-        line-height: 1.6;
-        margin-bottom: 1rem;
+        color: rgba($white, 0.9);
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
       }
 
       .service-details {
         text-align: left;
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
         border-top: 1px solid rgba($white, 0.1);
         overflow: hidden;
 
@@ -330,16 +388,72 @@ body {
 
           li {
             color: rgba($white, 0.9);
-            padding: 0.5rem 0;
+            padding: 0.8rem 0;
             font-family: 'Open Sans', sans-serif;
             display: flex;
             align-items: center;
+            font-size: 1.1rem;
 
             &::before {
               content: "→";
-              margin-right: 0.5rem;
-              color: $white;
-              font-size: 1.1rem;
+              margin-right: 1rem;
+              color: $accent;
+              font-size: 1.2rem;
+              transition: transform 0.3s ease;
+            }
+
+            &:hover::before {
+              transform: translateX(5px);
+            }
+          }
+        }
+
+        .learn-more-section {
+          margin-top: 2rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid rgba($white, 0.1);
+          text-align: center;
+
+          a {
+            width: 100%;
+            display: block;
+          }
+
+          .learn-more-btn {
+            width: 100%;
+            font-size: 0.9rem;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid $accent;
+            color: $accent;
+            border-radius: 6px;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+
+            &::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 0;
+              height: 100%;
+              background: $accent;
+              transition: width 0.3s ease;
+              z-index: -1;
+            }
+
+            &:hover {
+              color: $gunmetal;
+              
+              &::before {
+                width: 100%;
+              }
             }
           }
         }
@@ -380,7 +494,7 @@ body {
 @media (max-width: 1024px) {
   .services-page {
     .services-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       padding: 1.5rem;
       gap: 1.5rem;
 
@@ -396,11 +510,13 @@ body {
     .services-grid {
       grid-template-columns: 1fr;
       padding: 1rem;
-      gap: 1rem;
+      gap: 1.5rem;
 
       .service-card {
+        padding: 2rem;
+        
         h3 {
-          font-size: 1.3rem;
+          font-size: 1.6rem;
         }
       }
     }
@@ -449,6 +565,121 @@ body {
     button {
       padding: 0.5rem 1rem;
       font-size: 0.8rem;
+    }
+  }
+}
+
+// Add these styles after your existing service-detail-page styles
+
+.service-detail-page {
+  .service-detail-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+
+    .service-overview {
+      text-align: center;
+      margin-bottom: 4rem;
+
+      h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: $white;
+      }
+
+      p {
+        font-size: 1.2rem;
+        color: rgba($white, 0.8);
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+    }
+
+    .service-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+
+      .feature {
+        background: rgba($white, 0.05);
+        padding: 2rem;
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+        text-align: center;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: translateY(-5px);
+          background: rgba($white, 0.08);
+        }
+
+        h3 {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+          color: $white;
+        }
+
+        p {
+          color: rgba($white, 0.8);
+          line-height: 1.6;
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+}
+
+// Update responsive styles
+@media (max-width: 768px) {
+  .service-detail-page {
+    .service-detail-content {
+      padding: 1rem;
+
+      .service-overview {
+        margin-bottom: 2rem;
+
+        h2 {
+          font-size: 2rem;
+        }
+
+        p {
+          font-size: 1.1rem;
+        }
+      }
+
+      .service-features {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        .feature {
+          padding: 1.5rem;
+
+          h3 {
+            font-size: 1.3rem;
+          }
+
+          p {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Update responsive styles for mobile
+@media (max-width: 768px) {
+  .page-container {
+    padding: 4rem 1rem 1rem;
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0.5rem 0 1.5rem;
     }
   }
 }

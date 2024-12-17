@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import HomeButton from "../components/HomeButton";
+import { Link } from "react-router-dom";
 
 const containerVariants = {
   hidden: { opacity: 0, x: '100%' },
@@ -26,6 +27,7 @@ interface ServiceDetail {
   title: string;
   description: string;
   details: string[];
+  hasLearnMore?: boolean;
 }
 
 const servicesData: ServiceDetail[] = [
@@ -37,7 +39,7 @@ const servicesData: ServiceDetail[] = [
       "Social Media Marketing",
       "Email Marketing Campaigns",
       "Pay-Per-Click Advertising",
-      "Analytics and Reporting"
+      { text: "Analytics and Reporting", hasLearnMore: true }
     ]
   },
   {
@@ -109,10 +111,31 @@ export default function Services() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
                       >
-                        {detail}
+                        {typeof detail === 'string' ? detail : detail.text}
                       </motion.li>
                     ))}
                   </ul>
+                  {index === 0 && (
+                    <motion.div 
+                      className="learn-more-section"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      <Link 
+                        to="/services/learnmore"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <motion.button
+                          className="learn-more-btn"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          Learn More
+                        </motion.button>
+                      </Link>
+                    </motion.div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
