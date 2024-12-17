@@ -331,6 +331,9 @@ body {
       overflow: hidden;
       border: 1px solid rgba($white, 0.05);
       box-shadow: 0 4px 20px rgba($black, 0.1);
+      min-height: 300px; // Add minimum height
+      display: flex;
+      flex-direction: column;
 
       &:hover {
         transform: translateY(-8px);
@@ -341,6 +344,12 @@ body {
       &.expanded {
         background: rgba($white, 0.1);
         transform: scale(1.02);
+        .service-details {
+          max-height: 500px; // Set maximum height for animation
+          opacity: 1;
+          margin-top: 2rem;
+          padding-top: 2rem;
+        }
       }
 
       h3 {
@@ -373,18 +382,26 @@ body {
         line-height: 1.8;
         margin-bottom: 1.5rem;
         font-size: 1.1rem;
+        flex-grow: 1; // Allow description to take remaining space
       }
 
       .service-details {
         text-align: left;
-        margin-top: 2rem;
-        padding-top: 2rem;
+        margin-top: 0;
+        padding-top: 0;
         border-top: 1px solid rgba($white, 0.1);
         overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
 
         ul {
           list-style: none;
           padding: 0;
+          margin-bottom: 1rem;
+          flex-grow: 1;
 
           li {
             color: rgba($white, 0.9);
@@ -409,10 +426,12 @@ body {
         }
 
         .learn-more-section {
-          margin-top: 2rem;
+          margin-top: auto;
           padding-top: 1.5rem;
           border-top: 1px solid rgba($white, 0.1);
           text-align: center;
+          opacity: 1;
+          transition: opacity 0.3s ease;
 
           a {
             width: 100%;
@@ -434,7 +453,7 @@ body {
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            overflow: hidden;
+            z-index: 1;
 
             &::before {
               content: '';
@@ -455,6 +474,19 @@ body {
                 width: 100%;
               }
             }
+          }
+        }
+      }
+
+      &.expanded {
+        .service-details {
+          max-height: none;
+          opacity: 1;
+          margin-top: 2rem;
+          padding-top: 2rem;
+
+          .learn-more-section {
+            opacity: 1;
           }
         }
       }

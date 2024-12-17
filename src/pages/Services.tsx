@@ -27,7 +27,7 @@ interface ServiceDetail {
   title: string;
   description: string;
   details: string[];
-  hasLearnMore?: boolean;
+  learnMorePath: string;
 }
 
 const servicesData: ServiceDetail[] = [
@@ -39,8 +39,9 @@ const servicesData: ServiceDetail[] = [
       "Social Media Marketing",
       "Email Marketing Campaigns",
       "Pay-Per-Click Advertising",
-      { text: "Analytics and Reporting", hasLearnMore: true }
-    ]
+      "Analytics and Reporting"
+    ],
+    learnMorePath: "/services/digitalmarketing"
   },
   {
     title: "Brand Strategy",
@@ -51,7 +52,8 @@ const servicesData: ServiceDetail[] = [
       "Competitive Positioning",
       "Visual Brand Guidelines",
       "Brand Voice & Messaging"
-    ]
+    ],
+    learnMorePath: "/services/brandstrategy"
   },
   {
     title: "Content Creation",
@@ -62,7 +64,8 @@ const servicesData: ServiceDetail[] = [
       "Video Production",
       "Infographics & Visual Content",
       "Content Strategy Planning"
-    ]
+    ],
+    learnMorePath: "/services/contentcreation"
   }
 ];
 
@@ -111,31 +114,29 @@ export default function Services() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
                       >
-                        {typeof detail === 'string' ? detail : detail.text}
+                        {detail}
                       </motion.li>
                     ))}
                   </ul>
-                  {index === 0 && (
-                    <motion.div 
-                      className="learn-more-section"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 }}
+                  <motion.div 
+                    className="learn-more-section"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <Link 
+                      to={service.learnMorePath}
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <Link 
-                        to="/services/learnmore"
-                        onClick={(e) => e.stopPropagation()}
+                      <motion.button
+                        className="learn-more-btn"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        <motion.button
-                          className="learn-more-btn"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          Learn More
-                        </motion.button>
-                      </Link>
-                    </motion.div>
-                  )}
+                        Learn More
+                      </motion.button>
+                    </Link>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
