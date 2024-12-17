@@ -16,11 +16,19 @@ export default function Home() {
       >
         Modus Marketing
       </motion.h1>
+      <motion.h2
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="subheading"
+      >
+        Double the results. Half the cost.
+      </motion.h2>
       <motion.div 
         className="button-container"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3 }}
+        transition={{ delay: 0.4 }}
       >
         <Link to="/services"><button>Services</button></Link>
         <Link to="/portfolio"><button>Portfolio</button></Link>

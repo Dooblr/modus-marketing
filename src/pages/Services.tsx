@@ -1,5 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { motion } from "framer-motion";
 import HomeButton from "../components/HomeButton";
 import { Link } from "react-router-dom";
 
@@ -70,12 +69,6 @@ const servicesData: ServiceDetail[] = [
 ];
 
 export default function Services() {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-
-  const toggleExpand = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
-
   return (
     <motion.div 
       className="page-container services-page"
@@ -91,55 +84,49 @@ export default function Services() {
         {servicesData.map((service, index) => (
           <motion.div 
             key={service.title}
-            className={`service-card ${expandedIndex === index ? 'expanded' : ''}`}
-            onClick={() => toggleExpand(index)}
+            className="service-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
           >
             <h3>{service.title}</h3>
             <p>{service.description}</p>
             
-            <AnimatePresence>
-              {expandedIndex === index && (
-                <motion.div 
-                  className="service-details"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <ul>
-                    {service.details.map((detail, i) => (
-                      <motion.li 
-                        key={i}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                      >
-                        {detail}
-                      </motion.li>
-                    ))}
-                  </ul>
-                  <motion.div 
-                    className="learn-more-section"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
+            <motion.div 
+              className="service-details"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <ul>
+                {service.details.map((detail, i) => (
+                  <motion.li 
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 + 0.3 }}
                   >
-                    <Link 
-                      to={service.learnMorePath}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <motion.button
-                        className="learn-more-btn"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        Learn More
-                      </motion.button>
-                    </Link>
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    {detail}
+                  </motion.li>
+                ))}
+              </ul>
+              <motion.div 
+                className="learn-more-section"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Link to={service.learnMorePath}>
+                  <motion.button
+                    className="learn-more-btn"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Learn More
+                  </motion.button>
+                </Link>
+              </motion.div>
+            </motion.div>
           </motion.div>
         ))}
       </motion.div>

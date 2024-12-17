@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import HomeButton from "../components/HomeButton";
+import portfolioImage from "../assets/image_1.webp";
 
 const companies = [
-  { id: 1, name: "Tech Corp", image: "https://via.placeholder.com/300" },
-  { id: 2, name: "Innovation Labs", image: "https://via.placeholder.com/300" },
-  { id: 3, name: "Digital Solutions", image: "https://via.placeholder.com/300" },
-  { id: 4, name: "Future Systems", image: "https://via.placeholder.com/300" },
-  { id: 5, name: "Smart Ventures", image: "https://via.placeholder.com/300" },
-  { id: 6, name: "Cloud Nine", image: "https://via.placeholder.com/300" },
+  { id: 1, name: "Tech Corp", image: portfolioImage },
+  { id: 2, name: "Innovation Labs", image: portfolioImage },
+  { id: 3, name: "Digital Solutions", image: portfolioImage },
+  { id: 4, name: "Future Systems", image: portfolioImage },
+  { id: 5, name: "Smart Ventures", image: portfolioImage },
+  { id: 6, name: "Cloud Nine", image: portfolioImage },
 ];
 
 const containerVariants = {
