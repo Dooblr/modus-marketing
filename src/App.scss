@@ -189,3 +189,220 @@ body {
     }
   }
 }
+
+.contact-page {
+  .contact-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba($white, 0.05);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 1rem;
+        color: $white;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid rgba($white, 0.2);
+        border-radius: 4px;
+        background: rgba($white, 0.1);
+        color: $white;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+
+        &:focus {
+          outline: none;
+          border-color: rgba($white, 0.5);
+          background: rgba($white, 0.15);
+        }
+
+        &::placeholder {
+          color: rgba($white, 0.5);
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid $white;
+      border-radius: 4px;
+      background: transparent;
+      color: $white;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: $white;
+        color: $gunmetal;
+      }
+    }
+  }
+}
+
+// Add responsive styles for contact page
+@media (max-width: 768px) {
+  .contact-page {
+    .contact-form {
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+  }
+}
+
+.services-page {
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+
+    .service-card {
+      background: rgba($white, 0.05);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+
+      &:hover {
+        transform: translateY(-5px);
+        background: rgba($white, 0.08);
+      }
+
+      &.expanded {
+        background: rgba($white, 0.1);
+      }
+
+      h3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: $white;
+      }
+
+      p {
+        font-family: 'Open Sans', sans-serif;
+        color: rgba($white, 0.8);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      .service-details {
+        text-align: left;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba($white, 0.1);
+        overflow: hidden;
+
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            color: rgba($white, 0.9);
+            padding: 0.5rem 0;
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            align-items: center;
+
+            &::before {
+              content: "→";
+              margin-right: 0.5rem;
+              color: $white;
+              font-size: 1.1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .services-banner {
+    width: 100%;
+    background: linear-gradient(
+      45deg,
+      rgba($gunmetal, 0.95),
+      rgba($black, 0.95)
+    );
+    padding: 4rem 2rem;
+    text-align: center;
+    margin-top: 3rem;
+
+    h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      color: $white;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-family: 'Open Sans', sans-serif;
+      color: rgba($white, 0.8);
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  }
+}
+
+// Update responsive styles
+@media (max-width: 1024px) {
+  .services-page {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 1.5rem;
+      gap: 1.5rem;
+
+      .service-card {
+        padding: 1.5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .services-page {
+    .services-grid {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+      gap: 1rem;
+
+      .service-card {
+        h3 {
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
+}
