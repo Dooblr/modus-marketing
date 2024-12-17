@@ -24,7 +24,7 @@ export default function Home() {
         transition={{ delay: 0.3 }}
         className="subheading"
       >
-        10x results for half the cost
+        Elevate your digital presence.
       </motion.h2>
       <motion.div 
         className="button-container"

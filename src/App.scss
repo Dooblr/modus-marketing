@@ -324,7 +324,7 @@ body {
       overflow: hidden;
       border: 1px solid rgba($white, 0.05);
       box-shadow: 0 4px 20px rgba($black, 0.1);
-      min-height: 400px;
+      height: 600px;
       display: flex;
       flex-direction: column;
 
@@ -373,13 +373,13 @@ body {
         border-top: 1px solid rgba($white, 0.1);
         display: flex;
         flex-direction: column;
-        flex-grow: 1;
+        flex: 1;
 
         ul {
           list-style: none;
           padding: 0;
-          margin-bottom: 1.5rem;
-          flex-grow: 1;
+          margin: 0;
+          flex: 1;
 
           li {
             color: rgba($white, 0.9);
@@ -821,6 +821,64 @@ body {
         .price {
           font-size: 2.5rem;
         }
+      }
+    }
+  }
+}
+
+// Update mobile styles for splash container
+@media (max-width: 768px) {
+  .splash-container {
+    padding: 1rem;
+    text-align: center;
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subheading {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
+    }
+
+    .button-container {
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+      gap: 1rem;
+
+      a {
+        width: 100%;
+      }
+
+      button {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+// Add styles for smaller phones
+@media (max-width: 380px) {
+  .splash-container {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .subheading {
+      font-size: 1.2rem;
+    }
+
+    .button-container {
+      max-width: 250px;
+
+      button {
+        padding: 0.8rem;
+        font-size: 0.9rem;
       }
     }
   }

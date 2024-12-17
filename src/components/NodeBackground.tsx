@@ -20,11 +20,12 @@ interface NodeBackgroundProps {
 }
 
 export default function NodeBackground({ 
-  speed = 1,
+  speed = 0.5,
   nodes: nodeCount = 15 
 }: NodeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePosition = useRef<MousePosition>({ x: 0, y: 0 });
+  const timeRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -65,10 +66,18 @@ export default function NodeBackground({
     const animate = () => {
       if (!ctx || !canvas) return;
 
+      timeRef.current += 0.01;
+
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       nodes.forEach((node1, i) => {
+        // Add constant movement based on time
+        const oscillationX = Math.sin(timeRef.current + i * 0.5) * 0.2 * speed;
+        const oscillationY = Math.cos(timeRef.current + i * 0.5) * 0.2 * speed;
+        node1.vx += oscillationX;
+        node1.vy += oscillationY;
+
         nodes.forEach((node2, j) => {
           if (i !== j) {
             const dx = node2.x - node1.x;
