@@ -406,3 +406,49 @@ body {
     }
   }
 }
+
+.home-button {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 10;
+
+  a {
+    text-decoration: none;
+  }
+
+  button {
+    font-family: 'Open Sans', sans-serif;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 2px solid rgba($white, 0.8);
+    border-radius: 4px;
+    background-color: transparent;
+    color: $white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+    background: rgba($black, 0.2);
+
+    &:hover {
+      background-color: $white;
+      color: $gunmetal;
+    }
+  }
+}
+
+// Add responsive styles for home button
+@media (max-width: 768px) {
+  .home-button {
+    top: 1rem;
+    left: 1rem;
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+    }
+  }
+}

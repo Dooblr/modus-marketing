@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import HomeButton from "../components/HomeButton";
 
 interface FormData {
   name: string;
@@ -38,6 +39,7 @@ export default function Contact() {
       exit={{ opacity: 0, x: "-100%" }}
       transition={{ type: "tween", ease: "easeInOut" }}
     >
+      <HomeButton />
       <h1>Contact Us</h1>
       <motion.form
         className="contact-form"

@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import HomeButton from "../components/HomeButton";
 
 const containerVariants = {
   hidden: { opacity: 0, x: '100%' },
@@ -78,6 +79,7 @@ export default function Services() {
       animate="visible"
       exit="exit"
     >
+      <HomeButton />
       <h1>Our Services</h1>
       
       <motion.div className="services-grid" variants={itemVariants}>

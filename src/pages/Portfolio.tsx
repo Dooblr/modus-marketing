@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import HomeButton from "../components/HomeButton";
 
 const companies = [
   { id: 1, name: "Tech Corp", image: "https://via.placeholder.com/300" },
@@ -38,6 +39,7 @@ export default function Portfolio() {
       animate="visible"
       exit="exit"
     >
+      <HomeButton />
       <h1>Our Portfolio</h1>
       <motion.div className="portfolio-grid">
         {companies.map((company) => (
