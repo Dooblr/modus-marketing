@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import NodeBackground from "../components/NodeBackground";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      <NodeBackground speed={1.0} nodes={20}/>
       <motion.h1
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -22,7 +24,7 @@ export default function Home() {
         transition={{ delay: 0.3 }}
         className="subheading"
       >
-        Elevate your digital presence.
+        10x results for half the cost
       </motion.h2>
       <motion.div 
         className="button-container"
