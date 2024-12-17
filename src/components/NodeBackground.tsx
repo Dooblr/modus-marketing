@@ -7,6 +7,9 @@ interface Node {
   vy: number;
   homeX: number;
   homeY: number;
+  lifetime: number;  // Total lifetime of the node
+  age: number;      // Current age of the node
+  opacity: number;  // Current opacity of the node
 }
 
 interface MousePosition {
@@ -20,12 +23,28 @@ interface NodeBackgroundProps {
 }
 
 export default function NodeBackground({ 
-  speed = 0.5,
+  speed = 0.1,
   nodes: nodeCount = 15 
 }: NodeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePosition = useRef<MousePosition>({ x: 0, y: 0 });
   const timeRef = useRef(0);
+
+  const createNode = (canvas: HTMLCanvasElement): Node => {
+    const homeX = Math.random() * canvas.width;
+    const homeY = Math.random() * canvas.height;
+    return {
+      x: homeX,
+      y: homeY,
+      homeX,
+      homeY,
+      vx: (Math.random() - 0.5) * 0.1 * speed,
+      vy: (Math.random() - 0.5) * 0.1 * speed,
+      lifetime: 5000 + Math.random() * 5000,
+      age: 0,
+      opacity: 1
+    };
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -49,19 +68,8 @@ export default function NodeBackground({
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Use nodeCount parameter for array length
-    const nodes: Node[] = Array.from({ length: nodeCount }, () => {
-      const homeX = Math.random() * canvas.width;
-      const homeY = Math.random() * canvas.height;
-      return {
-        x: homeX,
-        y: homeY,
-        homeX,
-        homeY,
-        vx: (Math.random() - 0.5) * 0.2 * speed,
-        vy: (Math.random() - 0.5) * 0.2 * speed,
-      };
-    });
+    // Initialize nodes with lifetime properties
+    const nodes: Node[] = Array.from({ length: nodeCount }, () => createNode(canvas));
 
     const animate = () => {
       if (!ctx || !canvas) return;
@@ -71,10 +79,25 @@ export default function NodeBackground({
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      nodes.forEach((node1, i) => {
+      // Update and draw nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const node1 = nodes[i];
+        
+        // Update age and opacity
+        node1.age += 0.5;
+        if (node1.age > node1.lifetime * 0.8) {
+          node1.opacity = Math.max(0, 1 - (node1.age - node1.lifetime * 0.8) / (node1.lifetime * 0.2));
+        }
+
+        // Replace dead nodes
+        if (node1.age >= node1.lifetime) {
+          nodes[i] = createNode(canvas);
+          continue;
+        }
+
         // Add constant movement based on time
-        const oscillationX = Math.sin(timeRef.current + i * 0.5) * 0.2 * speed;
-        const oscillationY = Math.cos(timeRef.current + i * 0.5) * 0.2 * speed;
+        const oscillationX = Math.sin(timeRef.current + i * 0.5) * 0.1 * speed;
+        const oscillationY = Math.cos(timeRef.current + i * 0.5) * 0.1 * speed;
         node1.vx += oscillationX;
         node1.vy += oscillationY;
 
@@ -85,7 +108,7 @@ export default function NodeBackground({
             const distance = Math.sqrt(dx * dx + dy * dy);
             
             if (distance < 150) {
-              const force = ((150 - distance) / 2500) * speed;
+              const force = ((150 - distance) / 5000) * speed;
               node1.vx -= (dx / distance) * force;
               node1.vy -= (dy / distance) * force;
             }
@@ -97,7 +120,7 @@ export default function NodeBackground({
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < 300) {
-          const force = Math.min((300 - distance) / 150000, 0.005) * speed;
+          const force = Math.min((300 - distance) / 300000, 0.002) * speed;
           node1.vx += dx * force;
           node1.vy += dy * force;
         }
@@ -107,16 +130,16 @@ export default function NodeBackground({
         const homeDistance = Math.sqrt(homeDistanceX * homeDistanceX + homeDistanceY * homeDistanceY);
 
         if (distance > 300) {
-          const homeForce = (homeDistance / 30000) * speed;
+          const homeForce = (homeDistance / 60000) * speed;
           node1.vx += homeDistanceX * homeForce;
           node1.vy += homeDistanceY * homeForce;
         }
 
-        node1.vx += (Math.random() - 0.5) * 0.01 * speed;
-        node1.vy += (Math.random() - 0.5) * 0.01 * speed;
+        node1.vx += (Math.random() - 0.5) * 0.005 * speed;
+        node1.vy += (Math.random() - 0.5) * 0.005 * speed;
 
-        node1.vx *= 0.9;
-        node1.vy *= 0.9;
+        node1.vx *= 0.95;
+        node1.vy *= 0.95;
 
         node1.x += node1.vx * speed;
         node1.y += node1.vy * speed;
@@ -139,12 +162,14 @@ export default function NodeBackground({
           node1.vy *= -0.2;
         }
 
+        // Update node drawing with opacity
         ctx.beginPath();
         ctx.arc(node1.x, node1.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(100, 255, 218, 0.5)';
+        ctx.fillStyle = `rgba(100, 255, 218, ${0.5 * node1.opacity})`;
         ctx.fill();
-      });
+      }
 
+      // Update connections with opacity
       nodes.forEach((node1, i) => {
         nodes.slice(i + 1).forEach(node2 => {
           const dx = node2.x - node1.x;
@@ -155,7 +180,8 @@ export default function NodeBackground({
             ctx.beginPath();
             ctx.moveTo(node1.x, node1.y);
             ctx.lineTo(node2.x, node2.y);
-            ctx.strokeStyle = `rgba(100, 255, 218, ${0.3 * (1 - distance / 250)})`;
+            const combinedOpacity = node1.opacity * node2.opacity;
+            ctx.strokeStyle = `rgba(100, 255, 218, ${0.3 * (1 - distance / 250) * combinedOpacity})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -172,7 +198,7 @@ export default function NodeBackground({
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationId);
     };
-  }, [speed, nodeCount]); // Added nodeCount to dependency array
+  }, [speed, nodeCount]);
 
   return (
     <canvas
