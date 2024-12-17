@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Services from "./pages/Services";
 import Portfolio from "./pages/Portfolio";
 import Contact from "./pages/Contact";
+import Pricing from "./pages/Pricing";
 import LearnMore from "./pages/services/LearnMore";
 import DigitalMarketing from "./pages/services/DigitalMarketing";
 import BrandStrategy from "./pages/services/BrandStrategy";
@@ -26,6 +27,7 @@ function AnimatedRoutes() {
           <Route path="/services/brandstrategy" element={<BrandStrategy />} />
           <Route path="/services/contentcreation" element={<ContentCreation />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </AnimatePresence>
@@ -33,12 +35,10 @@ function AnimatedRoutes() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <Router>
       <AnimatedRoutes />
     </Router>
   );
 }
-
-export default App;

@@ -708,3 +708,135 @@ body {
     }
   }
 }
+
+.pricing-page {
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+
+    .pricing-card {
+      background: $card-bg;
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba($white, 0.05);
+      box-shadow: 0 4px 20px rgba($black, 0.1);
+      display: flex;
+      flex-direction: column;
+
+      &:hover {
+        transform: translateY(-8px);
+        background: $hover-bg;
+        border-color: rgba($accent, 0.2);
+      }
+
+      h3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.8rem;
+        color: $white;
+        margin-bottom: 1rem;
+      }
+
+      .price {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3rem;
+        color: $accent;
+        margin: 1rem 0;
+        font-weight: bold;
+      }
+
+      .description {
+        font-family: 'Open Sans', sans-serif;
+        color: rgba($white, 0.9);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2rem;
+        flex-grow: 1;
+        text-align: left;
+
+        li {
+          color: rgba($white, 0.9);
+          padding: 0.8rem 0;
+          font-family: 'Open Sans', sans-serif;
+          display: flex;
+          align-items: center;
+          font-size: 1.1rem;
+
+          &::before {
+            content: "✓";
+            color: $accent;
+            margin-right: 1rem;
+            font-weight: bold;
+          }
+        }
+      }
+
+      .get-started-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        background: transparent;
+        border: 2px solid $accent;
+        color: $accent;
+        border-radius: 6px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: auto;
+
+        &:hover {
+          background: $accent;
+          color: $gunmetal;
+        }
+      }
+    }
+  }
+}
+
+// Add responsive styles for pricing page
+@media (max-width: 1024px) {
+  .pricing-page {
+    .pricing-grid {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 1.5rem;
+      gap: 1.5rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing-page {
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+      gap: 1.5rem;
+
+      .pricing-card {
+        padding: 2rem;
+        
+        h3 {
+          font-size: 1.6rem;
+        }
+
+        .price {
+          font-size: 2.5rem;
+        }
+      }
+    }
+  }
+}

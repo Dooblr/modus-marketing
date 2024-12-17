@@ -22,7 +22,7 @@ export default function Home() {
         transition={{ delay: 0.3 }}
         className="subheading"
       >
-        Double the results. Half the cost.
+        Elevate your digital presence.
       </motion.h2>
       <motion.div 
         className="button-container"
@@ -32,6 +32,7 @@ export default function Home() {
       >
         <Link to="/services"><button>Services</button></Link>
         <Link to="/portfolio"><button>Portfolio</button></Link>
+        <Link to="/pricing"><button>Pricing</button></Link>
         <Link to="/contact"><button>Contact</button></Link>
       </motion.div>
     </motion.div>
