@@ -1,26 +1,38 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import HomeButton from "../components/HomeButton";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import FeatureItem from "../components/FeatureItem";
 
 const containerVariants = {
-  hidden: { opacity: 0, x: '100%' },
+  hidden: { opacity: 0 },
   visible: { 
-    opacity: 1, 
-    x: 0,
+    opacity: 1,
     transition: { 
-      type: "tween",
-      ease: "easeInOut",
       when: "beforeChildren",
-      staggerChildren: 0.1
+      staggerChildren: 0.1,
+      duration: 0.3
     }
   },
-  exit: { opacity: 0, x: '-100%' }
+  exit: { opacity: 0 }
 };
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.3
+    }
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.2
+    }
+  }
 };
 
 interface Plan {
@@ -108,25 +120,18 @@ export default function Pricing() {
           </div>
         </div>
 
-        <motion.div className="features-grid">
-          {selectedPlan.features.map((feature, index) => (
-            <motion.div 
-              key={index}
-              className="feature-card"
-              variants={itemVariants}
-            >
-              <div className="feature-content">
-                <div className="feature-header">
-                  <h3>{feature}</h3>
-                </div>
-                <div className="feature-value">
-                  <span className="included">
-                    Included
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <motion.div 
+          className="features-grid"
+          layout
+          transition={{
+            layout: { duration: 0.3 }
+          }}
+        >
+          <AnimatePresence mode="wait">
+            {selectedPlan.features.map((feature) => (
+              <FeatureItem key={feature} feature={feature} />
+            ))}
+          </AnimatePresence>
         </motion.div>
 
         <div className="cta-container">

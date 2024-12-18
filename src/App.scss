@@ -630,6 +630,37 @@ body {
       }
     }
   }
+
+  // Service page CTA button styles
+  .cta-container {
+    text-align: center;
+    margin-top: 2rem;
+
+    .cta-button {
+      font-family: 'Open Sans', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border: 2px solid $accent;
+      color: $accent;
+      background: transparent;
+      border-radius: 6px;
+      padding: 0 2.5rem;
+      height: 60px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        scale: 1.05;
+        background: $accent;
+        color: $gunmetal;
+      }
+
+      &:active {
+        scale: 0.95;
+      }
+    }
+  }
 }
 
 // Update responsive styles
@@ -901,6 +932,9 @@ body {
     margin: 3rem auto;
     max-width: 1200px;
     padding: 0 1rem;
+    min-height: 300px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 
     .feature-card {
       background: rgba($gunmetal, 0.2);
@@ -909,57 +943,34 @@ body {
       padding: 1.5rem;
       display: flex;
       gap: 1rem;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 80px;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      will-change: transform, opacity;
 
       &:hover {
         background: rgba($gunmetal, 0.3);
         transform: translateX(5px);
-      }
-
-      &.disabled {
-        opacity: 0.5;
-        background: rgba($gunmetal, 0.1);
-
-        &:hover {
-          transform: none;
-        }
-      }
-
-      .feature-number {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 1.5rem;
-        color: $accent;
-        font-weight: bold;
-        opacity: 0.8;
+        border-color: rgba($accent, 0.2);
       }
 
       .feature-content {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
         .feature-header {
-          margin-bottom: 0.5rem;
+          margin: 0;
 
           h3 {
             font-family: 'Open Sans', sans-serif;
             font-size: 1.1rem;
             color: $white;
             margin: 0;
-          }
-        }
-
-        .feature-value {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 0.9rem;
-
-          .included {
-            color: $accent;
-            font-weight: 600;
-            opacity: 0.9;
-          }
-
-          .not-included {
-            color: rgba($white, 0.5);
-            font-style: italic;
+            line-height: 1.2;
+            transition: color 0.3s ease;
           }
         }
       }

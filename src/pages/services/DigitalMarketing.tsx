@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import HomeButton from "../../components/HomeButton";
+import { Link } from "react-router-dom";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -57,6 +58,23 @@ export default function DigitalMarketing() {
             <p>Get actionable insights from your marketing data to optimize campaigns and improve future performance.</p>
           </motion.div>
         </motion.section>
+
+        <motion.div 
+          className="cta-container"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <Link to="/contact">
+            <motion.button
+              className="cta-button"
+              whileHover={{ scale: 1.05, background: '#64FFDA', color: '#2C3539' }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Started
+            </motion.button>
+          </Link>
+        </motion.div>
       </div>
     </motion.div>
   );
