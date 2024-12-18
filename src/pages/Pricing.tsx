@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import HomeButton from "../components/HomeButton";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0, x: '100%' },
@@ -26,98 +26,53 @@ const itemVariants = {
 interface Plan {
   name: string;
   displayName: string;
-  range: [number, number];
   features: string[];
-  sliderValue: number;
 }
 
 const PLANS: Plan[] = [
   { 
     name: 'Starter', 
     displayName: 'Essentials',
-    range: [0, 25],
-    features: ['Basic Marketing Tools', 'Social Media Management', 'Content Creation'],
-    sliderValue: 12 // Middle of range
+    features: [
+      'Basic Marketing Tools',
+      'Social Media Management',
+      'Content Creation',
+      'Monthly Analytics Report',
+      'Email Support'
+    ]
   },
   { 
     name: 'Scale-Up', 
     displayName: 'Professional',
-    range: [26, 50],
-    features: ['Advanced Analytics', 'Email Campaigns', 'SEO Optimization'],
-    sliderValue: 38 // Middle of range
+    features: [
+      'Advanced Analytics',
+      'Email Campaigns',
+      'SEO Optimization',
+      'Content Strategy',
+      'Social Media Strategy',
+      'Priority Support',
+      'Weekly Reports'
+    ]
   },
   { 
     name: 'Enterprise', 
     displayName: 'Enterprise',
-    range: [51, 75],
-    features: ['Full Service Suite', 'Custom Strategy', 'Priority Support'],
-    sliderValue: 63 // Middle of range
-  },
-  {
-    name: 'Enterprise-Plus',
-    displayName: 'Enterprise+',
-    range: [76, 100],
-    features: ['White Label Solutions', 'Dedicated Account Team', 'Custom Development'],
-    sliderValue: 88 // Middle of range
+    features: [
+      'Full Service Suite',
+      'Custom Strategy',
+      'Priority Support',
+      'White Label Solutions',
+      'Dedicated Account Team',
+      'Custom Development',
+      'Market Research',
+      'Competitor Analysis',
+      'Monthly Strategy Sessions'
+    ]
   }
 ];
 
-interface PricingFeature {
-  name: string;
-  baseValue: number;
-  maxValue: number;
-  unit: string;
-  included: boolean;
-}
-
-const features: PricingFeature[] = [
-  { name: "Social Media Posts", baseValue: 4, maxValue: 16, unit: "posts", included: true },
-  { name: "Content Creation", baseValue: 2, maxValue: 8, unit: "hours", included: true },
-  { name: "SEO Optimization", baseValue: 1, maxValue: 5, unit: "keywords", included: true },
-  { name: "Email Marketing", baseValue: 1, maxValue: 4, unit: "campaigns", included: true },
-  { name: "Analytics Reports", baseValue: 1, maxValue: 4, unit: "reports", included: true },
-  { name: "Strategy Sessions", baseValue: 1, maxValue: 4, unit: "sessions", included: true },
-  { name: "Ad Campaigns", baseValue: 0, maxValue: 3, unit: "campaigns", included: false },
-  { name: "Custom Graphics", baseValue: 2, maxValue: 8, unit: "designs", included: true },
-  { name: "Market Research", baseValue: 0, maxValue: 2, unit: "reports", included: false },
-  { name: "Competitor Analysis", baseValue: 0, maxValue: 2, unit: "reports", included: false }
-];
-
 export default function Pricing() {
-  const [sliderValue, setSliderValue] = useState(50);
-  const [currentPlan, setCurrentPlan] = useState<Plan>(PLANS[1]); // Start with Professional
-  const [scaledFeatures, setScaledFeatures] = useState<PricingFeature[]>(features);
-
-  const getCurrentPlan = (value: number): Plan => {
-    return PLANS.find(plan => value >= plan.range[0] && value <= plan.range[1]) || PLANS[1];
-  };
-
-  const handleSliderChange = (value: number) => {
-    setSliderValue(value);
-    const newPlan = getCurrentPlan(value);
-    setCurrentPlan(newPlan);
-  };
-
-  useEffect(() => {
-    const scaled = features.map(feature => {
-      const valueRange = feature.maxValue - feature.baseValue;
-      const scaledValue = feature.included
-        ? Math.round(feature.baseValue + (valueRange * sliderValue / 100))
-        : sliderValue >= 75 ? Math.max(1, Math.round(feature.baseValue + (valueRange * (sliderValue - 75) / 25))) : 0;
-
-      return {
-        ...feature,
-        baseValue: scaledValue,
-        included: feature.included || sliderValue >= 75
-      };
-    });
-    setScaledFeatures(scaled);
-  }, [sliderValue]);
-
-  const handlePlanClick = (plan: Plan) => {
-    setSliderValue(plan.sliderValue);
-    setCurrentPlan(plan);
-  };
+  const [selectedPlan, setSelectedPlan] = useState<Plan>(PLANS[1]); // Start with Professional
 
   return (
     <motion.div 
@@ -132,39 +87,20 @@ export default function Pricing() {
         <HomeButton />
         <h1>Custom Marketing Solutions</h1>
         <div className="pricing-description">
-          <p>Select your plan to see included services</p>
+          <p>Choose the plan that fits your business needs</p>
           <p>Scale your marketing strategy as your business grows</p>
         </div>
 
         <div className="slider-container">
           <div className="price-display">
-            <span className="plan-tier">{currentPlan.displayName}</span>
-            <div className="plan-features">
-              {currentPlan.features.map((feature, index) => (
-                <span key={index} className="feature-tag">{feature}</span>
-              ))}
-            </div>
-          </div>
-          <div className="slider-wrapper">
-            <input 
-              type="range" 
-              min="0" 
-              max="100" 
-              value={sliderValue} 
-              onChange={(e) => handleSliderChange(parseInt(e.target.value))}
-              className="custom-slider"
-            />
-            <div 
-              className="slider-fill"
-              style={{ width: `${sliderValue}%` }}
-            />
+            <span className="plan-tier">{selectedPlan.displayName}</span>
           </div>
           <div className="slider-labels">
             {PLANS.map((plan) => (
               <span
                 key={plan.name}
-                className={currentPlan.name === plan.name ? 'active' : ''}
-                onClick={() => handlePlanClick(plan)}
+                className={selectedPlan.name === plan.name ? 'active' : ''}
+                onClick={() => setSelectedPlan(plan)}
               >
                 {plan.displayName}
               </span>
@@ -173,25 +109,20 @@ export default function Pricing() {
         </div>
 
         <motion.div className="features-grid">
-          {scaledFeatures.map((feature, index) => (
+          {selectedPlan.features.map((feature, index) => (
             <motion.div 
               key={index}
-              className={`feature-card ${!feature.included ? 'disabled' : ''}`}
+              className="feature-card"
               variants={itemVariants}
             >
-              <div className="feature-number">{(index + 1).toString().padStart(2, '0')}</div>
               <div className="feature-content">
                 <div className="feature-header">
-                  <h3>{feature.name}</h3>
+                  <h3>{feature}</h3>
                 </div>
                 <div className="feature-value">
-                  {feature.included ? (
-                    <span className="included">
-                      {feature.baseValue} {feature.unit}
-                    </span>
-                  ) : (
-                    <span className="not-included">Higher tier</span>
-                  )}
+                  <span className="included">
+                    Included
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -205,7 +136,7 @@ export default function Pricing() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Get Started with {currentPlan.displayName}
+              Get Started with {selectedPlan.displayName}
             </motion.button>
           </Link>
         </div>
