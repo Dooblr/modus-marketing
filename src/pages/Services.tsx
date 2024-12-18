@@ -130,14 +130,6 @@ export default function Services() {
           </motion.div>
         ))}
       </motion.div>
-
-      <motion.div 
-        className="services-banner"
-        variants={itemVariants}
-      >
-        <h2>Transform Your Business Today</h2>
-        <p>Let us help you reach your marketing goals with our expert solutions</p>
-      </motion.div>
     </motion.div>
   );
 } 
