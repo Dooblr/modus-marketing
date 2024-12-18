@@ -28,26 +28,37 @@ interface Plan {
   displayName: string;
   range: [number, number];
   features: string[];
+  sliderValue: number;
 }
 
 const PLANS: Plan[] = [
   { 
     name: 'Starter', 
     displayName: 'Essentials',
-    range: [0, 33],
-    features: ['Basic Marketing Tools', 'Social Media Management', 'Content Creation']
+    range: [0, 25],
+    features: ['Basic Marketing Tools', 'Social Media Management', 'Content Creation'],
+    sliderValue: 12 // Middle of range
   },
   { 
     name: 'Scale-Up', 
     displayName: 'Professional',
-    range: [34, 66],
-    features: ['Advanced Analytics', 'Email Campaigns', 'SEO Optimization']
+    range: [26, 50],
+    features: ['Advanced Analytics', 'Email Campaigns', 'SEO Optimization'],
+    sliderValue: 38 // Middle of range
   },
   { 
     name: 'Enterprise', 
     displayName: 'Enterprise',
-    range: [67, 100],
-    features: ['Full Service Suite', 'Custom Strategy', 'Priority Support']
+    range: [51, 75],
+    features: ['Full Service Suite', 'Custom Strategy', 'Priority Support'],
+    sliderValue: 63 // Middle of range
+  },
+  {
+    name: 'Enterprise-Plus',
+    displayName: 'Enterprise+',
+    range: [76, 100],
+    features: ['White Label Solutions', 'Dedicated Account Team', 'Custom Development'],
+    sliderValue: 88 // Middle of range
   }
 ];
 
@@ -103,6 +114,11 @@ export default function Pricing() {
     setScaledFeatures(scaled);
   }, [sliderValue]);
 
+  const handlePlanClick = (plan: Plan) => {
+    setSliderValue(plan.sliderValue);
+    setCurrentPlan(plan);
+  };
+
   return (
     <motion.div 
       className="page-container pricing-page"
@@ -144,9 +160,15 @@ export default function Pricing() {
             />
           </div>
           <div className="slider-labels">
-            <span className={currentPlan.name === 'Starter' ? 'active' : ''}>Essentials</span>
-            <span className={currentPlan.name === 'Scale-Up' ? 'active' : ''}>Professional</span>
-            <span className={currentPlan.name === 'Enterprise' ? 'active' : ''}>Enterprise</span>
+            {PLANS.map((plan) => (
+              <span
+                key={plan.name}
+                className={currentPlan.name === plan.name ? 'active' : ''}
+                onClick={() => handlePlanClick(plan)}
+              >
+                {plan.displayName}
+              </span>
+            ))}
           </div>
         </div>
 
