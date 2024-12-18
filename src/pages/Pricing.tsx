@@ -17,74 +17,83 @@ const containerVariants = {
   exit: { opacity: 0 }
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      duration: 0.3
-    }
-  },
-  exit: {
-    opacity: 0,
-    y: -20,
-    transition: {
-      duration: 0.2
-    }
-  }
-};
-
 interface Plan {
   name: string;
   displayName: string;
   features: string[];
 }
 
+// All possible features across all plans
+const ALL_FEATURES = [
+  'Customized Website',
+  'Social Media Management',
+  'Content Creation',
+  'Increased Pages, Content, and Edits',
+  'Ad Campaigns (PPC)',
+  'Advanced Analytics',
+  'Priority Support',
+  'A/B Testing',
+  'SEO',
+  'Email Marketing',
+  'Unlimited Pages, Content, and Edits',
+  'Monthly Strategy Sessions',
+  'Dedicated White Glove Service'
+];
+
+// Base features included in the Essential plan
+const ESSENTIAL_FEATURES = [
+  'Customized Website',
+  'Social Media Management',
+  'Content Creation'
+];
+
+// Professional plan includes all Essential features plus its own
+const PROFESSIONAL_FEATURES = [
+  ...ESSENTIAL_FEATURES,
+  'Increased Pages, Content, and Edits',
+  'Ad Campaigns (PPC)',
+  'Advanced Analytics',
+  'Priority Support',
+  'A/B Testing',
+  'SEO',
+  'Email Marketing'
+];
+
+// Enterprise plan includes all Professional features plus its own
+const ENTERPRISE_FEATURES = [
+  ...PROFESSIONAL_FEATURES,
+  'Unlimited Pages, Content, and Edits',
+  'Monthly Strategy Sessions',
+  'Dedicated White Glove Service'
+];
+
 const PLANS: Plan[] = [
   { 
-    name: 'Starter', 
-    displayName: 'Essentials',
-    features: [
-      'Basic Marketing Tools',
-      'Social Media Management',
-      'Content Creation',
-      'Monthly Analytics Report',
-      'Email Support'
-    ]
+    name: 'Essential', 
+    displayName: 'Essential',
+    features: ESSENTIAL_FEATURES
   },
   { 
-    name: 'Scale-Up', 
+    name: 'Professional', 
     displayName: 'Professional',
-    features: [
-      'Advanced Analytics',
-      'Email Campaigns',
-      'SEO Optimization',
-      'Content Strategy',
-      'Social Media Strategy',
-      'Priority Support',
-      'Weekly Reports'
-    ]
+    features: PROFESSIONAL_FEATURES
   },
   { 
     name: 'Enterprise', 
     displayName: 'Enterprise',
-    features: [
-      'Full Service Suite',
-      'Custom Strategy',
-      'Priority Support',
-      'White Label Solutions',
-      'Dedicated Account Team',
-      'Custom Development',
-      'Market Research',
-      'Competitor Analysis',
-      'Monthly Strategy Sessions'
-    ]
+    features: ENTERPRISE_FEATURES
   }
 ];
 
 export default function Pricing() {
   const [selectedPlan, setSelectedPlan] = useState<Plan>(PLANS[1]); // Start with Professional
+
+  const isFeatureHighlighted = (feature: string) => {
+    // if (feature === 'Increased Pages, Content, and Edits' && selectedPlan.name === 'Enterprise') {
+    //   return true; // Don't highlight "Increased" when "Unlimited" is selected
+    // }
+    return selectedPlan.features.includes(feature);
+  };
 
   return (
     <motion.div 
@@ -128,8 +137,12 @@ export default function Pricing() {
           }}
         >
           <AnimatePresence mode="wait">
-            {selectedPlan.features.map((feature) => (
-              <FeatureItem key={feature} feature={feature} />
+            {ALL_FEATURES.map((feature) => (
+              <FeatureItem 
+                key={feature} 
+                feature={feature} 
+                highlighted={isFeatureHighlighted(feature)}
+              />
             ))}
           </AnimatePresence>
         </motion.div>
