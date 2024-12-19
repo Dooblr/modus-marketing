@@ -40,6 +40,10 @@ const services = [
   {
     title: "Analytics & Reporting",
     description: "Data-driven insights and detailed reporting to optimize your marketing performance."
+  },
+  {
+    title: "Social Media Advertising",
+    description: "Strategic paid social campaigns across multiple platforms to reach and engage your target audience."
   }
 ];
 

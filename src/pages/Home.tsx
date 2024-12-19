@@ -33,7 +33,7 @@ export default function Home() {
         transition={{ delay: 0.4 }}
       >
         <Link to="/services"><button>Services</button></Link>
-        <Link to="/portfolio"><button>Portfolio</button></Link>
+        {/* <Link to="/portfolio"><button>Portfolio</button></Link> */}
         <Link to="/pricing"><button>Pricing</button></Link>
         <Link to="/contact"><button>Contact</button></Link>
       </motion.div>
